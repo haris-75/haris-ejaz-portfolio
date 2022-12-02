@@ -178,17 +178,20 @@ strong {
   will-change: transform;
   transition: transform 200ms linear;
 }
-.navbar[class*='-unpinned'] {
+/* .navbar[class*='-unpinned'] {
   transform: translate(0, -150%);
-}
+} */
 .navbar[class*='-pinned'] {
   transform: translate(0, 0);
 }
 .navbar[class*='headroom--not-top'] {
-  background: #ffffff;
+  /* background: #ffffff;
   border-bottom: 1px solid #f0f0f0;
   padding-top: 0;
-  padding-bottom: 0;
+  padding-bottom: 0; */
+  background: transparent;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
 }
 
 .navbar-brand {
@@ -601,16 +604,93 @@ strong {
 .about-container-image {
   text-align: center;
 }
-.about-conatiner-table-heading > h5 {
+.about-container-table-heading > h5 {
   margin: 0 !important;
 }
-.about-conatiner-table-heading {
+.about-container-table-heading {
   padding: 0.5rem;
 }
-.about-conatiner-table-data {
+.about-container-table-data {
   padding: 0.5rem;
 }
-.about-conatiner-table-data > h6 {
+.about-container-table-data > h6 {
   margin: 0 !important;
   font-weight: 100;
+}
+.skills-container {
+  display: grid;
+  grid-gap: 1.35rem;
+}
+.progress-wrapper > img {
+  width: 50px;
+}
+.progress-wrapper {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  align-items: center;
+  grid-gap: 1rem;
+}
+.progress-wrapper > .progress {
+  grid-column-start: 2;
+  grid-column-end: 7;
+  grid-row-start: 1;
+  grid-row-end: 1;
+}
+@media (min-width: 995px) {
+  .skills-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .contact-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media (max-width: 994px) {
+  .skills-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .contact-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 700px) {
+  .skills-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+  .contact-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+.contact-container {
+  display: grid;
+  grid-gap: 2rem;
+  width: 100%;
+  text-align: center;
+}
+.contact-type-container-img {
+  display: grid;
+  grid-gap: 0.5rem;
+}
+.contact-type-container-img > div > img {
+  width: 45px;
+}
+
+.contact-type-container-img > div {
+  background: #ffc200;
+  padding: 18px 21px;
+  width: fit-content;
+  margin: auto;
+  border-radius: 50%;
+}
+.contact-type-container-img > h6 {
+  margin: 0;
+}
+.contact-type-container-img > p {
+  margin: 0;
+}
+.social-icon-div {
+  margin-right: 1rem;
+}
+.social-icon-div:last-child {
+  margin-right: 0rem;
 }

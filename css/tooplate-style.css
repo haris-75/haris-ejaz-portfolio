@@ -522,7 +522,7 @@ strong {
   }
 
   .navbar-collapse {
-    background: #ffffff;
+    background-filter: blur(8px);
     text-align: center;
     padding-bottom: 20px;
   }
@@ -624,6 +624,9 @@ strong {
 .progress-wrapper > img {
   width: 50px;
 }
+.progress-wrapper > div > img {
+  width: 50px;
+}
 .progress-wrapper {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -673,11 +676,12 @@ strong {
 }
 .contact-type-container-img > div > img {
   width: 45px;
+  height: 45px;
 }
 
 .contact-type-container-img > div {
   background: #ffc200;
-  padding: 18px 21px;
+  padding: 18px;
   width: fit-content;
   margin: auto;
   border-radius: 50%;
@@ -693,4 +697,12 @@ strong {
 }
 .social-icon-div:last-child {
   margin-right: 0rem;
+}
+.progress-bar-light {
+  color: #000;
+  background-color: #ffc200;
+}
+.progress-bar-dark {
+  color: #000;
+  background-color: #ffc200;
 }

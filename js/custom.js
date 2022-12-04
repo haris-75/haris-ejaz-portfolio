@@ -5,7 +5,7 @@
   $('.color-mode').click(function () {
     $('.color-mode-icon').toggleClass('active');
     $('body').toggleClass('dark-mode');
-    console.log('body class', $('body').hasClass('dark-mode'));
+    $('.navbar-toggler-icon').toggleClass('active-class-dark');
     if ($('body').hasClass('dark-mode')) {
       $('#email-img-icon').attr('src', '/images/contact-icons/email_white.svg');
       $('#phone-img-icon').attr('src', '/images/contact-icons/phone_white.svg');
@@ -18,6 +18,10 @@
         'src',
         '/images/social-icons/github_white.svg'
       );
+      $('#github-img-icon-mobile').attr(
+        'src',
+        '/images/social-icons/github_white.svg'
+      );
       $('.progress-bar').addClass('progress-bar-dark');
       $('.progress-bar').removeClass('progress-bar-light');
     } else {
@@ -26,6 +30,10 @@
       $('#skype-img-icon').attr('src', '/images/contact-icons/skype.svg');
       $('#address-img-icon').attr('src', '/images/contact-icons/address.svg');
       $('#github-img-icon').attr('src', '/images/social-icons/github.svg');
+      $('#github-img-icon-mobile').attr(
+        'src',
+        '/images/social-icons/github.svg'
+      );
       $('.progress-bar').removeClass('progress-bar-dark');
       $('.progress-bar').addClass('progress-bar-light');
     }

@@ -31,25 +31,43 @@ https://www.tooplate.com/view/2115-marvel
   <body>
     <!-- MENU -->
     <nav class="navbar navbar-expand-sm navbar-light">
-      <div class="container">
+      <div class="container navbar-container">
         <a class="navbar-brand" href="#home">
           <!-- <i class="uil uil-user"></i> -->
           <img src="images/undraw/haris-ejaz.png" width="50" />
           Haris
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="d-flex nav-mobile-icons"> 
+            <div class="d-flex">
+            <div
+                class="color-mode d-lg-flex justify-content-center align-items-center"
+                style="height: 30px;margin-top: -0.3rem;"
+              >
+                <i class="color-mode-icon"></i>
+              </div>
+              <img
+                id="github-img-icon-mobile"
+                style="margin-left: 0.5rem;width: 30px;"
+                alt="github-icon"
+                src="/images/social-icons/github.svg"
+              />
+          </div>    
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+            >
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+            <span class="navbar-toggler-icon"></span>
+          </button>
+        
+        </div>
+   
 
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mx-auto">
@@ -81,7 +99,7 @@ https://www.tooplate.com/view/2115-marvel
           </ul>
 
           <ul class="navbar-nav ml-lg-auto">
-            <div class="d-flex ml-lg-4">
+            <div class="d-flex ml-lg-4 custom-nav-left">
               <div
                 class="color-mode d-lg-flex justify-content-center align-items-center"
               >

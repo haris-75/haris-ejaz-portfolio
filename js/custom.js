@@ -39,6 +39,11 @@
     }
   });
 
+  // NAVBAR TOGGLER
+  $('.navbar-toggler').click(function () {
+    $('#home').toggleClass('mobil-nav-padding');
+  });
+
   // HEADER
   $('.navbar').headroom();
 

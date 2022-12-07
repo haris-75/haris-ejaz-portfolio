@@ -489,15 +489,8 @@ strong {
 @media (max-width: 991px) {
   .full-screen {
     padding-bottom: 4rem;
+    transition: padding 0.5s ease-in;
   }
-
-  /* .color-mode {
-    display: none;
-  } */
-
-  /* .about-image {
-    margin-top: 4em;
-  } */
 
   .mobile-mt-2,
   .contact-form {
@@ -735,4 +728,12 @@ strong {
 }
 .active-class-dark {
   background: #fff !important;
+}
+.mobil-nav-padding {
+  padding-top: 12rem;
+  transition: padding 0.5s ease-in;
+}
+.custom-mobile-nav {
+  text-align: left;
+  padding: 0px 10px;
 }

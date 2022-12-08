@@ -50,7 +50,7 @@ p {
   font-size: 18px;
   font-weight: 300;
   line-height: 1.5;
-  color: #5b5b5b;
+  color: #757575;
 }
 
 h1,
@@ -736,4 +736,7 @@ strong {
 .custom-mobile-nav {
   text-align: left;
   padding: 0px 10px;
+}
+.custom-item-list > li > p {
+  margin-bottom: 0.5rem;
 }

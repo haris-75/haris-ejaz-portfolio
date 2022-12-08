@@ -1,6 +1,10 @@
 (function ($) {
   'use strict';
 
+  $(document).ready(function () {
+    $('#footer-year').text('2022');
+  });
+
   // COLOR MODE
   $('.color-mode').click(function () {
     $('.color-mode-icon').toggleClass('active');

@@ -2,7 +2,7 @@
   'use strict';
 
   $(document).ready(function () {
-    $('#footer-year').text('2022');
+    $('#footer-year').text('2023');
   });
 
   // COLOR MODE

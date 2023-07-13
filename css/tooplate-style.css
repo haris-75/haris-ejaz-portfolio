@@ -96,16 +96,28 @@ strong {
   overflow: hidden;
   transition: all 0.4s ease;
 }
+.dark-mode .custom-btn {
+  background: #000;
+  color: #fff;
+}
 .custom-btn:hover {
   color: #ffc200;
 }
+.dark-mode .custom-btn.custom-btn-bg {
+  color: #212121 !important;
+  background: #ffffff !important;
+}
+.dark-mode .custom-btn-bg:hover {
+  background: #ffc200 !important;
+  color: #ffffff !important;
+}
 .custom-btn.custom-btn-bg {
-  background: #474559;
-  color: #ffffff;
+  background: #212121;
+  color: #ffffff !important;
 }
 .custom-btn.custom-btn-bg:hover {
   background: #ffc200;
-  color: #ffffff !important;
+  color: #ffffff;
 }
 
 .animated {

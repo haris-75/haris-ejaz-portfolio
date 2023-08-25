@@ -397,13 +397,20 @@ strong {
 .owl-carousel .owl-nav .owl-next:before {
   background: none;
   padding: 0;
-  display: block;
+  display: none;
   position: absolute;
   top: 50%;
-  transform: translate(0, -50%);
+  transform: translate(0, -60%);
   font-family: 'unicons';
   font-size: 100px;
   line-height: normal;
+  transition: all 0.5s ease-in-out;
+}
+.owl-carousel:hover .owl-next:before {
+  display: block;
+}
+.owl-carousel:hover .owl-prev:before {
+  display: block;
 }
 .owl-carousel .owl-nav .owl-prev:before {
   content: '\e833';
@@ -496,6 +503,7 @@ strong {
   .owl-theme .owl-dots {
     position: relative;
     bottom: 50px;
+    transform: translateY(50px);
   }
 }
 @media (max-width: 991px) {
@@ -751,4 +759,13 @@ strong {
 }
 .custom-item-list > li > p {
   margin-bottom: 0.5rem;
+}
+
+/* Project Image CSS */
+
+.project-image {
+  border: 1px solid rgba(71, 71, 71, 0.202);
+  border-radius: 25px;
+  margin-top: 1.5rem;
+  cursor: pointer;
 }

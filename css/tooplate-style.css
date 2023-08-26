@@ -412,6 +412,9 @@ strong {
 .owl-carousel:hover .owl-prev:before {
   display: block;
 }
+.owl-carousel:hover .img-backdrop {
+  visibility: visible;
+}
 .owl-carousel .owl-nav .owl-prev:before {
   content: '\e833';
   left: -45px;
@@ -429,6 +432,9 @@ strong {
   font-size: inherit;
 }
 .owl-theme .owl-nav [class*='owl-']:hover {
+  color: #ffc200;
+}
+.dark-mode .owl-theme .owl-nav [class*='owl-']:hover {
   color: #ffc200;
 }
 .owl-theme .owl-dots .owl-dot {
@@ -768,4 +774,35 @@ strong {
   border-radius: 25px;
   margin-top: 1.5rem;
   cursor: pointer;
+}
+.project-info {
+  position: relative;
+}
+.img-backdrop {
+  width: 100%;
+  height: 100%;
+  border-radius: 25px;
+  background: rgba(130, 135, 138, 0.442);
+  position: absolute;
+  top: 0;
+  visibility: hidden;
+  cursor: pointer;
+}
+.project-link {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #fff;
+}
+.project-link-href {
+  color: #007bff !important;
+}
+.project-link-href:hover {
+  color: #007bff !important;
 }

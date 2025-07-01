@@ -1,0 +1,151 @@
+---
+title: "Custom Hooks in ReactJS"
+summary: "Personalize the portfolio template with your own content."
+publishedAt: "2023-03-10"
+tag: "React"
+---
+
+Custom hooks are functions that encapsulate reusable logic. When the complexity of a react application grows, managing the state and the logic that goes with it can become challenging. This is where `custom hooks` come in.
+
+They allow you to extract common patterns of stateful logic into reusable functions that can be shared across components. Custom hooks can be used to handle things like form validation, API calls, and more. In this blog, we'll explore the concept of custom hooks in `ReactJS` and how they can be used to improve your code's reusability and maintainability.
+
+## Creating Custom Hooks
+
+To create a custom hook in React, all you need to do is create a function that uses one or more built-in React hooks, such as useState or useEffect. Custom hooks can also call other custom hooks, enabling you to build complex, reusable logic that can be easily shared across components.
+
+Here's an example of a custom hook that uses useState to manage a boolean value:
+
+```javascript
+import { useState } from "react";
+
+export const useToggle = (initialState) => {
+  const [value, setValue] = useState(initialState);
+  const toggle = () => setValue(!value);
+  return [value, toggle];
+};
+```
+
+In this example, the useToggle hook accepts an initial boolean value and returns an array containing the current boolean value and a function to toggle it. Any component that uses this hook can now easily manage a boolean state value by calling the useToggle function.
+
+## Using Custom Hooks
+
+Using a custom hook in a component is as simple as calling the function and using the returned values. Here's an example of a component that uses the useToggle hook:
+
+```javascript
+import { useToggle } from "./useToggle";
+
+const MyComponent = () => {
+  const [isToggledOn, toggle] = useToggle(false);
+
+  return (
+    <div>
+      <button onClick={toggle}>{isToggledOn ? "ON" : "OFF"}</button>
+    </div>
+  );
+};
+```
+
+In the above example, the `MyComponent` component imports the `useToggle` hook and calls it to manage the state of a button's toggle switch. The hook's returned values are destructured into two variables: `isToggledOn` and `toggle`. The `isToggledOn` variable contains the current boolean value, and the toggle function can be used to toggle it.
+
+That was a very basic example. Now let's look into some real coding problem that you might face in one of your projects.
+
+## Real Coding Problem
+
+Let's say you have to make an `API` request to get a list of users and display this list on the client side. Normally what you would do (while using reactJS) is that, Make a component for it and in the `useEffect` method of this component make this `API` request and store data in the local state. Just like this:
+
+```javascript
+function App() {
+  /* Conventional code to make an api request in a React Component */
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  React.useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        setError(error?.message);
+      });
+  });
+
+  return <div className="App">{/* Show data in whatever way you like */}</div>;
+}
+
+export default App;
+```
+
+So what we are doing is that we are making an `API` request inside the `useEffect` hook and then we are setting the following `state` variables:
+
+- `data` : to store the data getting from the `API`
+- `isLoading` : to check if data is loading
+- `error` : to store and show error message (if any)
+
+However, if we need to make the same `API` request elsewhere in our app, we would have to duplicate the above code. This approach is less than ideal, as we would not be able to reuse the same code. To address this issue, we can leverage custom hooks to achieve this. Let's see how this can be done.
+
+### Solution Using Custom Hooks
+
+Now let's see how we will address the above problem using a custom hook. First we will create a custom hook named `useUserApiRequest`:
+
+```javascript
+export const useUserApiRequest = () => {
+  return [];
+};
+```
+
+Then we will write the code where we will make the `API` request inside the `useEffect` hook and use the required state variables like this:
+
+```javascript
+export const useUserApiRequest = () => {
+  const [data, setData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        setData(json);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1000);
+      })
+      .catch((error) => {
+        setError(error?.message);
+      });
+  });
+  return [data, isLoading, error];
+};
+```
+
+Now we will see how we can use above `custom hook` in our app. We will just call this hook like any other hook and it will return three variables that we were using previously to display information to the user.
+
+```javascript
+function App() {
+  const [data, isLoading, error] = useUserApiRequest();
+  return <div className="App">{/* Show data in whatever way you like */}</div>;
+}
+
+export default App;
+```
+
+If you look closely into the above code, there is no need to repeatedly duplicate the code when making an API request for user data rather we will use the one line where we are using the `useUserApiRequest` hook get all the required. It's easy to write, understand and reusable at the same time and save us a lot of time.
+
+## Benefits of Custom Hooks
+
+Using custom hooks in your React application can bring several benefits, including:
+
+> - Reusability: Custom hooks enable you to extract common patterns of stateful logic into reusable functions that can be shared across components. This makes it easy to reuse the same logic in multiple components and reduces the amount of code you need to write.
+
+> - Maintainability: By extracting logic into custom hooks, you can keep your component code clean and focused on the UI. This makes it easier to maintain and debug your code in the long run.
+
+> - Testability: Custom hooks can be tested independently of your components, making it easier to write unit tests for your application's logic.
+
+## Conclusion
+
+Custom hooks are a powerful tool for building reusable and maintainable logic in ReactJS. By extracting common patterns of stateful logic into reusable functions, you can reduce the amount of code you need to write and make it easier to maintain and test your application. Whether you're building a simple or complex React application, custom hooks are an essential tool to have in your toolbox.
+
+_[Here](https://github.com/haris-75/custom-hook-react) is the Github repo link of the above used code._

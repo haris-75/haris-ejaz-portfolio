@@ -1,0 +1,279 @@
+---
+title: "useEffect a Conceptual Deep Dive"
+summary: "Create password protected pages through the RouteGuard component."
+publishedAt: "2022-04-17"
+tag: "React"
+---
+
+In simplest of words, useEffect is a react hook that allows you to perform side effects in functional components. You can perform a lot of side effects using this hook such as Data fetching, setting up a subscription, manually changing the DOM in React components and many more.
+
+Now we will look closely into useEffect functionality and it's usage.
+Consider the following example:
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function NumberCount() {
+  const [count, setCount] = useState(0);
+
+  // Similar to componentDidMount and componentDidUpdate:
+  useEffect(() => {
+    // Update the document title using the browser API
+    document.title = `Your counter: ${count}`;
+  });
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
+In the above example we are simply editing title of our webpage when the `NumberCount` component is rendered. This showcases how to perform a simple side effect using useEffect hook in a react component.
+
+Now let's see deep dive into this side effect thing.
+
+## Side Effects
+
+There are two kinds of side effects in React components: those that require cleanup, and those that don't require cleanup. Let's talk about these distinctions in detail.
+
+### Effects With Cleanup
+
+In some cases we might want to run some code when the React has updated the DOM. For instance
+
+- Network Requests
+- Manual Dom Mutations
+- Logging
+
+When we say these side effects don't require cleanup this means that, when we run them we forget about them immediately.
+
+Let's consider another example:
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function NumberCount() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // alert the value of count to user
+    alert("Count Value: " + count);
+  });
+
+  return (
+    <div>
+      <p>You clicked {count} times</p>
+      <button onClick={() => setCount(count + 1)}>Click me</button>
+    </div>
+  );
+}
+```
+
+So what's actually happening?
+
+- We are actually telling React that we want to do something when our component is rendered by using this Hook.
+- React will remember the effect (the function we have passed) and call it when it updates the DOM.
+- In this effect we are setting alerting count value whenever we increment that value but we can also perform some kind of data fetching or some imperative API.
+
+#### Explanation
+
+We are setting a `count` variable and then we tell react we need to use an effect. Then we pass a function to the `useEffect` hook. The function we passed is our effect. In our function or effect we display the count value using the `alert` dialog of web API.
+
+We can read the latest count inside the effect because it’s in the scope of our function. React will remember the effect we used when it renders our component, then run our effect after updating the DOM. This happens for every render, including the first one.
+
+### Effects Without Cleanup
+
+Previously we looked on how to express side effects that don't require a cleanup. Now we will look at side effects that require a clean up for instance we might want to set up a `subscription` to an external data source. In that case we need to clean up that `subscription` in order to prevent memory leaks.
+
+Let's consider the following example:
+
+Some of you might be thinking that we need a separate effect for canceling the subscription but the code for adding & removing a subscription is so tightly related that useEffect is designed to keep it together. If you return something from your effect, React will run it when it's time to clean up a subscription.
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function ServerStatus(props) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+    backendAPI.subscribeToServerStatus(props.server.id, handleStatusChange);
+    // Specify how to clean up after this effect:
+    return function cleanup() {
+      backendAPI.unsubscribeFromServerStatus(
+        props.server.id,
+        handleStatusChange
+      );
+    };
+  });
+
+  if (isOnline === null) {
+    return "Loading...";
+  }
+  return isOnline ? "Online" : "Offline";
+}
+```
+
+## UseEffect Arguments
+
+`useEffect` hook accept two arguments:
+
+```javascript
+useEffect(callback[, dependencies]);
+```
+
+- `callback` is a function where you'll write your side effects logic.
+- `dependencies` is an array of state variables or props. And useffect will call the `callback` function every time these values are updated between renderings.
+
+![flowchart describing useEffect flow](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eiqnpf8hpd7yor6or2h2.png)
+
+_Using the `dependencies` array you can control when to run your side effects and these side effects are written inside the `callback` function._
+
+We can use this `dependency` array in three ways:
+
+- Not Provided, side Effects run after every re-render
+
+```javascript
+import { useEffect } from "react";
+function FunctionalComponent() {
+  useEffect(() => {
+    // Runs after EVERY render
+  });
+}
+```
+
+- Empty Array, side Effects run only on the first re-render
+
+```javascript
+import { useEffect } from "react";
+function FunctionalComponent() {
+  useEffect(() => {
+    // Runs ONCE after initial render
+  }, []);
+}
+```
+
+- Not Provided, side Effects run after every re-render
+
+```javascript
+import { useEffect, useState } from "react";
+function FunctionalComponent({ prop }) {
+  const [state, setState] = useState("");
+  useEffect(() => {
+    // Runs ONCE after initial rendering
+    // and after every rendering ONLY IF `prop` or `state` changes
+  }, [prop, state]);
+}
+```
+
+To compile the above concept let's consider this example:
+
+```javascript
+useEffect(() => {
+  document.title = `Your counter: ${count}`;
+}, [count]);
+```
+
+So you see we have added `count` state variable in the `dependency` array. Whenever the `count` variable is updated `callback` function inside the `useEffect` hook is called. Which means `useEffect` is not called on every render rather it is called when `count` state variable is updated.
+
+## useEffect & Component Lifecycle
+
+The dependency array of `useEffect` can be used in a way to replicate some important component lifecycle methods.
+
+### ComponentDidMount
+
+As we know `ComponentDidMount` method is called after a component is mounted. We can use `useEffect` to replicate this functionality. How? Let's see:
+
+```javascript
+import { useEffect } from "react";
+function Home({ name }) {
+  const message = `Its, ${name}!, How you doin?`;
+  useEffect(() => {
+    // Runs once, after mounting
+    document.title = "Home page";
+  }, []);
+  return <div>{message}</div>;
+}
+```
+
+In the above example we are setting the dependency array empty ,so the `callback` function will be called once i.e when the component is mounted. In this manner, we can imitate the `ComponentDidMount()` functionality using the `useEffect` hook.
+
+### ComponentDidUpdate
+
+By adding the `state` and `props` in the dependency array we can replicate the `ComponentDidUpdate` functionality using the `useEffect` hook. Let's see how we can do this:
+
+```javascript
+import { useEffect } from "react";
+function FunctionalComponent({ prop }) {
+  const [state, setState] = useState();
+  useEffect(() => {
+    // side effect logic where `props` and `state` is used
+  }, [prop, state]);
+  return <div>Functional Component</div>;
+}
+```
+
+So `useEffect` hook calls the callback once after the component has been mounted and subsequently after any changes to the values in the dependency array `[prop, state]` have been committed to the DOM. The callback will only be executed if one of the values in the dependencies array has changed.
+
+## Important Interview Related Stuff
+
+So what happens, if I set the initial value of a `state` variable inside the `callback` function of `useEffect`?
+Will it render the component or not?
+Let us consider the following example:
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function ServerStatus(props) {
+  const [value, setValue] = useState(1);
+
+  useEffect(() => {
+    setValue(1);
+  });
+
+  return <div>{value}</div>;
+}
+```
+
+Most of you will be thinking that when we reset the state variable `value` to `1` inside the `callback` function, `ServerStatus` component will render again, but the thing here is that when we mutate the state variable to `1` React compares the `prevState` value to the passed value in the setState method. _As both values are equal it doesn't re-render the component to avoid any wasteful re-renders_.
+
+But what happens if we are dealing with non-primitive values?
+
+Consider the following example:
+
+```javascript
+import React, { useState, useEffect } from "react";
+
+function ServerStatus(props) {
+  const [value, setValue] = useState({ x: 1 });
+
+  useEffect(() => {
+    setValue({ x: 1 });
+  });
+
+  return <div>{value}</div>;
+}
+```
+
+While considering our pervious observation we can say that the component will not be rendered as we are setting the same value as the `prevState` value. But if you dive deeper into this you will see `ServerStatus` component will be rendered infinitely. Now you will be wondering why? Let me explain this to you:
+
+As you know when we compare two objects in `javascript` even if all the content of these objects are same when we compare them `javascript` will return `false` why? _Because it store both objects in the memory with different `reference` and when it compare these objects it will compare `reference` of these objects and the result will be false_. Let's understand this using some coding example:
+
+```javascript
+// this will display false on the screen
+console.log({} === {});
+```
+
+---
+
+## Summary
+
+The `useEffect(callback, dependencies)` hook is used to manage side-effects in functional components. The `callback` argument is a function that contains the logic for the side-effect, while the dependencies argument is a list of the `props` or `state` values that the side-effect depends on.
+
+`useEffect(callback, dependencies)` invokes the `callback` function after the initial rendering (mounting) and on subsequent renderings, if any of the values in the dependencies array have changed.
+
+_If you still have queries regarding `useEffect`? Write a comment below!_

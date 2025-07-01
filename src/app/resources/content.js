@@ -7,26 +7,31 @@ const person = {
     return `${this.firstName} ${this.lastName}`;
   },
   role: "Senior Frontend Developer",
-  avatar: "/images/kevin.png",
+  avatar: "/images/kevin1234.png",
   email: "harisbinejaz75@gmail.com",
-  location: "Asia/Karachi", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  location: "Lahore, Pakistan", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
   languages: ["English", "Urdu"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter = {
   display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
+  title: <>Interested in working with me? Let's talk.</>,
   description: (
     <>
-      I occasionally write about design, technology, and share thoughts on the
-      intersection of creativity and engineering.
+      Feel free to reach out for business inquiries—I’ll get back to you within
+      a day or two.
     </>
   ),
 };
 
 const social = [
   // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
+  // Import new icons in /once-ui/icons.
+  {
+    name: "Upwork",
+    icon: "upwork",
+    link: "https://www.upwork.com/freelancers/~012b9ca54fb09523c7?mp_source=share",
+  },
   {
     name: "GitHub",
     icon: "github",
@@ -60,24 +65,20 @@ const home = {
     display: true,
     title: (
       <>
-        Recent project: <strong className="ml-4">Once UI</strong>
+        Recent project: <strong className="ml-4">NYT Explorer</strong>
       </>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/work/nyt-explorer",
   },
   subline: (
     <>
       {/* I'm Selene, a design engineer at <Logo icon={false} style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}/>, where I craft intuitive
       <br /> user experiences. After hours, I build my own projects. */}
       I'm a Senior Frontend Developer at{" "}
-      <Logo
-        icon={false}
-        style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}
-      />
-      , where I craft intuitive
-      <br /> Dubai Municipality with 5+ years building React and Next.js
-      applications. I focus on clean code, seamless user experiences, and
-      helping teams deliver faster.
+      <strong style={{ color: "#fff" }}>Dubai Municipality</strong> ,
+      <br /> with over 5 years of experience in React and Next.js, specializing
+      in building intuitive applications, writing clean code, and enabling teams
+      to deliver efficiently with seamless user experiences.
     </>
   ),
 };
@@ -170,8 +171,8 @@ const about = {
         role: "Senior Frontend Developer — Full-time (Remote)",
         achievements: [
           <>
-            Leading the frontend development of multiple large-scale government
-            portals using React and Next.js, focusing on performance,
+            Contributing as a senior developer to a large-scale government
+            portal using React and Next.js, with a focus on performance,
             accessibility, and scalability.
           </>,
           <>
@@ -182,10 +183,6 @@ const about = {
             Integrated GIS and other data-rich APIs to enhance digital services
             for public access and internal dashboards, boosting functionality
             and usability.
-          </>,
-          <>
-            Mentored junior developers and conducted code reviews to ensure code
-            quality, maintainability, and adherence to accessibility standards.
           </>,
         ],
         images: [],

@@ -56,14 +56,20 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
         )}
         {(avatars?.length > 0 || description?.trim() || content?.trim()) && (
           <Column flex={7} gap="16">
-            {avatars?.length > 0 && <AvatarGroup avatars={avatars} size="m" reverse />}
+            {avatars?.length > 0 && (
+              <AvatarGroup avatars={avatars} size="m" reverse />
+            )}
             {description?.trim() && (
-              <Text wrap="balance" variant="body-default-s" onBackground="neutral-weak">
+              <Text
+                wrap="balance"
+                variant="body-default-s"
+                onBackground="neutral-weak"
+              >
                 {description}
               </Text>
             )}
             <Flex gap="24" wrap>
-              {content?.trim() && (
+              {/* {content?.trim() && (
                 <SmartLink
                   suffixIcon="arrowRight"
                   style={{ margin: "0", width: "fit-content" }}
@@ -71,7 +77,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
                 >
                   <Text variant="body-default-s">Read case study</Text>
                 </SmartLink>
-              )}
+              )} */}
               {link && (
                 <SmartLink
                   suffixIcon="arrowUpRightFromSquare"

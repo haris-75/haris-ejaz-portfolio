@@ -1,0 +1,241 @@
+---
+title: "Consumable In-App Purchases in React Native"
+image: "/images/blog-image.png"
+publishedAt: "2024-04-20"
+summary: "Every career is a journey, filled with challenges, growth, and those significant moments that mark a shift in our path."
+tag: "React Native"
+---
+
+In-app purchases (IAP) in React Native require using native code for both iOS and Android because React Native doesn’t have a built-in module for IAP.
+
+## Types of In-App Purchases (IAP)
+
+Users can make different types of purchases within a mobile app. While the terms and specific types may vary slightly between iOS and Android, the following types are generally common:
+
+### 1. Consumable Purchases
+
+Consumable purchases are items that users buy and use up. These include things like virtual currency, extra lives, power-ups, or other virtual goods that can be consumed within the app.
+
+**Example**: Purchasing virtual coins or gems in a game.
+
+### 2. Non-Consumable Purchases
+
+Non-consumable purchases are items that users buy once and have permanent access to. These include features or content that don’t get used up.
+
+Accessing a premium feature, eliminating ads, or acquiring additional content like an extra level or chapter in a book app.
+
+### 3. Auto-Renewable Subscriptions
+
+Auto-renewable subscriptions allow users to access content or features on an ongoing basis. These subscriptions automatically renew at the end of the subscription period unless the user cancels.
+
+**Example**: Monthly or annual subscription for premium content, access to exclusive features, or an ad-free experience.
+
+Adding consumable purchases to an In-App Purchase (IAP) system involves several steps, and the specifics can vary depending on the platform (iOS, Android) and the tools/libraries you are using. Here are the general steps to implement consumable purchases in a React Native app using (for IOS) the `react-native-iap` library:
+
+## 1. Install the library
+
+First, you need to install the library. You can use npm, yarn, or any other node package manager you prefer:
+
+```javascript
+yarn add react-native-iap
+```
+
+OR
+
+```javascript
+npm install react-native-iap
+```
+
+## 1. Set up In App Purchase Products:
+
+I assume you already have an **Apple Developer** account and an **app** created within that account. If you need help setting up an **Apple Developer** account and creating an **app**, you can refer to [this guide](https://developer.apple.com/help/app-store-connect/create-an-app-record/add-a-new-app/).
+
+Now, click on your app and follow these steps to create an in-app purchase product:
+
+First, scroll to the bottom of the sidebar on your app page and click on **In-App Purchases** under the **Monetization** tab:
+
+![img-1](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d0sepioqitlh14zax7no.png)
+
+Next, click the plus icon next to the In-App Purchase Title:
+
+![img-2](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sleafxtcb39x403aptw0.png)
+
+A popup will appear like this::
+
+![img-3](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/yd3455z9t0cjymkwvf1x.png)
+
+Select the type consumable and fill in the required information as shown:
+
+![img-4](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mdo5zz7g33qe0lfhl8m5.png)
+
+Click the save button, and you will be navigated to a screen where you can add more details for this in-app purchase product.
+
+Then, select the availability of this in-app purchase product for different countries:
+
+![img-5](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpwa51ind8q63hex37v9.png)
+
+Next, choose the pricing by clicking the button shown below:
+![img-6](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jldpdch6kyihuqz1w7ot.png)
+
+A popup will appear where you can set the pricing according to your needs:
+![img-7](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/br0dqdconrhqdtke9kyl.png)
+
+Then, add localization for the in-app purchase product:
+![img-8](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nnd0p83e3otctkukoko5.png)
+
+A popup will appear like this:
+![img-9](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jt4mvalg86iif4ewyq8y.png)
+
+Next, you need to add an image of the app screen where this purchase will occur:
+
+![img-10](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2xz3gawnvxvd3l0vf7xd.png)
+
+And add review notes and you’re good to go.
+
+That's it for the **App Store Connect** configuration. You will see this in-app purchase as a draft like below:
+
+![img-11](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fca8rchzzd33t1b4mhh2.png)
+
+## 2. Configure Xcode For In App Purchase:
+
+- Open your project workspace in Xcode.
+- Select your project and click **Signing and Capabilities** tab:
+
+![img-12](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b8t2268thiasi30gtuh8.png)
+
+- Search for **In-App Purchase** and click on it:
+
+![img-13](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/09w2seqiyjg12ktjobik.png)
+
+That's it now let's move to the next step.
+
+## 2. Integrate In App Purchase
+
+```javascript
+import React from 'react';
+import { useIAP, requestPurchase, isIosStorekit2, PurchaseError } from 'react-native-iap';
+
+export default function InAppComponent() {
+const {
+        products,
+        currentPurchase,
+        finishTransaction,
+        getProducts,
+        requestPurchase
+    } = useIAP();
+const [loading, setLoading] = useState(false);
+
+const productSkus = Platform.select({
+  ios: ['10_COINS','20_COINS','30_COINS' ],
+  android: [],
+  default: [],
+}) as string[];
+
+useEffect(() => {
+    handleGetProducts();
+  }, []);
+
+const handleGetProducts = async () => {
+    try {
+      setLoading(true)
+      await getProducts({ skus: productSkus });
+    } catch (error) {
+      setLoading(false)
+      console.log({ message: 'handleGetProducts', error });
+    }
+  };
+
+ const handleBuyProduct = async (sku: Sku) => {
+        try {
+            setLoading(true);
+            await requestPurchase({ sku });
+        } catch (error) {
+            handleError(error, 'handleBuyProduct');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+const handleError = (error: any, context: string) => {
+        console.log(
+            'Exception while making Request',
+            error,
+        );
+    };
+
+ useEffect(() => {
+     const checkCurrentPurchase = async () => {
+            try {
+                if (
+                    (isIosStorekit2() && currentPurchase?.transactionId) ||
+                    currentPurchase?.transactionReceipt
+                ) {
+                    await finishTransaction({
+                        purchase: currentPurchase,
+                        isConsumable: true,
+                    });
+                    onApiCall(currentPurchase);
+                }
+            } catch (error) {
+                handleError(error, 'checkCurrentPurchase');
+            }
+        };
+
+        checkCurrentPurchase();
+    }, [currentPurchase, finishTransaction]);
+
+  const onApiCall = (params: any) => {
+       console.log(params,"Call your API Here")
+        setLoading(false);
+    };
+
+  return (
+   <>
+{products.map((product, index) => (
+                <TouchableOpacity
+                    onPress={() => handleBuyProduct(product.productId)}
+                    key={index}
+                >
+                    <Text>
+                        {product?.title} for{' '}
+                        <Text>
+                            {product?.localizedPrice}
+                        </Text>
+                    </Text>
+                </TouchableOpacity>
+            ))}
+</>
+  );
+}
+```
+
+Sure, let's walk through the provided React Native code step by step:
+
+1. **Import Statements**:
+   Import the required modules and functions from the `react-native-iap` library.
+
+2. **Product SKUs Definition**:
+   Define the product SKUs according to the platform, in this case, iOS.
+
+> _SKU is the ID of the in app product that you've created at the first step_.
+
+3. **handleGetProducts Function**:
+   On the initial page render, retrieve all products linked to your Apple Store account. Use these products to establish a connection with the In-App Purchase (IAP) system. Map the retrieved products to display them in your view.
+
+4. **handleBuyProduct Function**:
+   After listing the products, use the `handleBuyProduct` function to start the purchase process. Pass your unique `productId` as an argument. Once executed, the `handleBuyProduct` function will return a response in the `currentPurchase` variable. This response can then be sent to your API for storage.
+
+> _To test this IAP integration in the development environment, follow these steps_:
+
+> - _Run the app on a real device in debug mode_.
+> - _Use the Apple account that you've set up as a sandbox account_.
+
+### Conclusion
+
+In this detailed guide, we explored the realm of in-app purchases in React Native, covering the basics, implementation steps, best practices, and tips for effectively integrating in-app purchase functionality into mobile applications.
+
+### References:
+
+1. [React Native IAP](https://react-native-iap.dooboolab.com/docs/get-started/)
+1. [react-native](https://reactnative.dev/)
+1. [Apple Developer Documentation](https://developer.apple.com/documentation)

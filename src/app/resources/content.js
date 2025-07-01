@@ -1,41 +1,46 @@
 import { Logo } from "@/once-ui/components";
 
 const person = {
-  firstName: "Selene",
-  lastName: "Yu",
+  firstName: "Haris",
+  lastName: "Ejaz",
   get name() {
     return `${this.firstName} ${this.lastName}`;
   },
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  role: "Senior Frontend Developer",
+  avatar: "/images/kevin1234.png",
+  email: "harisbinejaz75@gmail.com",
+  location: "Lahore, Pakistan", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
+  languages: ["English", "Urdu"], // optional: Leave the array empty if you don't want to display languages
 };
 
 const newsletter = {
   display: true,
-  title: <>Subscribe to {person.firstName}'s Newsletter</>,
+  title: <>Interested in working with me? Let's talk.</>,
   description: (
     <>
-      I occasionally write about design, technology, and share thoughts on the intersection of
-      creativity and engineering.
+      Feel free to reach out for business inquiries—I’ll get back to you within
+      a day or two.
     </>
   ),
 };
 
 const social = [
   // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
+  // Import new icons in /once-ui/icons.
+  {
+    name: "Upwork",
+    icon: "upwork",
+    link: "https://www.upwork.com/freelancers/~012b9ca54fb09523c7?mp_source=share",
+  },
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system/nextjs-starter",
+    link: "https://github.com/haris-75/",
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
+    link: "https://www.linkedin.com/in/haris-ejaz-2a75b9181/",
   },
   {
     name: "X",
@@ -53,21 +58,32 @@ const home = {
   path: "/",
   image: "/images/og/home.jpg",
   label: "Home",
-  title: `${person.name}'s Portfolio`,
+  title: `${person.name} - Senior Frontend Developer`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Crafting interfaces that drive real business impact</>,
   featured: {
     display: true,
-    title: <>Recent project: <strong className="ml-4">Once UI</strong></>,
-    href: "/work/building-once-ui-a-customizable-design-system",
+    title: <>Download Resume</>,
+    href: "https://raw.githubusercontent.com/haris-75/haris-75/main/haris-ejaz-cv.pdf",
   },
   subline: (
     <>
-      I'm Selene, a design engineer at <Logo icon={false} style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}/>, where I craft intuitive
-      <br /> user experiences. After hours, I build my own projects.
+      {/* I'm Selene, a design engineer at <Logo icon={false} style={{ display: "inline-flex", top: "0.25em", marginLeft: "-0.25em" }}/>, where I craft intuitive
+      <br /> user experiences. After hours, I build my own projects. */}
+      I'm a Senior Frontend Developer at{" "}
+      <strong className="neutral-on-background-strong">
+        Dubai Municipality
+      </strong>{" "}
+      ,
+      <br /> with over 5 years of experience in React and Next.js, specializing
+      in building intuitive applications, writing clean code, and enabling teams
+      to deliver efficiently with seamless user experiences.
     </>
   ),
 };
+
+const meetingBookingLink =
+  "https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ1kuimULw7FtiA0Qzd4_IPKTQCBcy-Ad6NbSjh9eFOL3oR5mY2SCkYpxYBdiTUhibB5HqFCwG9A";
 
 const about = {
   path: "/about",
@@ -83,114 +99,267 @@ const about = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: meetingBookingLink,
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        Haris is a Lahore-based frontend engineer driven by a passion for
+        crafting intuitive, accessible, and scalable user interfaces. With a
+        focus on React, React Native, Next.js, and TypeScript, his work bridges
+        performance, polish, and the art of thoughtful interaction across web
+        and mobile platforms.
       </>
     ),
   },
+  // work: {
+  //   display: true, // set to false to hide this section
+  //   title: "Work Experience",
+  //   experiences: [
+  //     {
+  //       company: "FLY",
+  //       timeframe: "2022 - Present",
+  //       role: "Senior Design Engineer",
+  //       achievements: [
+  //         <>
+  //           Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
+  //           engagement and 30% faster load times.
+  //         </>,
+  //         <>
+  //           Spearheaded the integration of AI tools into design workflows, enabling designers to
+  //           iterate 50% faster.
+  //         </>,
+  //       ],
+  //       images: [
+  //         // optional: leave the array empty if you don't want to display images
+  //         {
+  //           src: "/images/projects/project-01/cover-01.jpg",
+  //           alt: "Once UI Project",
+  //           width: 16,
+  //           height: 9,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       company: "Creativ3",
+  //       timeframe: "2018 - 2022",
+  //       role: "Lead Designer",
+  //       achievements: [
+  //         <>
+  //           Developed a design system that unified the brand across multiple platforms, improving
+  //           design consistency by 40%.
+  //         </>,
+  //         <>
+  //           Led a cross-functional team to launch a new product line, contributing to a 15% increase
+  //           in overall company revenue.
+  //         </>,
+  //       ],
+  //       images: [],
+  //     },
+  //   ],
+  // },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Dubai Municipality",
+        timeframe: "May 2025 - Present",
+        role: "Senior Frontend Developer — Full-time (Remote)",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Contributing as a senior developer to a large-scale government
+            portal using React and Next.js, with a focus on performance,
+            accessibility, and scalability.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Collaborated with UI/UX teams to implement pixel-perfect interfaces,
+            improving user satisfaction scores across platforms by 30%.
+          </>,
+          <>
+            Integrated GIS and other data-rich APIs to enhance digital services
+            for public access and internal dashboards, boosting functionality
+            and usability.
           </>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Cogent Labs",
+        timeframe: "Sep 2023 - May 2025",
+        role: "Software Engineer — Full-time",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Led a cross-functional team in building a flagship mobile app,
+            increasing market penetration by 30% within the first quarter
+            post-launch.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Managed the full development cycle for 3 key projects, improving
+            efficiency by 25% through modern architecture and coding practices.
+          </>,
+          <>
+            Enhanced team performance by mentoring 8 junior developers and
+            fostering Agile best practices, reducing delivery time by 20%.
+          </>,
+          <>
+            Integrated complex third-party APIs, boosting mobile app performance
+            by 35% and contributing to a 40% surge in user satisfaction.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Datum Brain",
+        timeframe: "Oct 2020 - Sep 2023",
+        role: "Software Engineer — Full-time",
+        achievements: [
+          <>
+            Developed and deployed a custom ERP system that cut HR and Finance
+            overhead by 45% and improved data accuracy by 30%.
+          </>,
+          <>
+            Championed code quality through regular pull request reviews,
+            reducing bugs by 15% and improving maintainability.
+          </>,
+          <>
+            Strengthened client relationships via bi-weekly check-ins, resulting
+            in a 23% improvement in client retention and satisfaction.
+          </>,
+          <>
+            Led knowledge-sharing and mentorship initiatives, boosting team
+            technical capabilities and project delivery efficiency by over 20%.
           </>,
         ],
         images: [],
       },
     ],
   },
+
   studies: {
     display: true, // set to false to hide this section
     title: "Studies",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
-      },
-      {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Faculty of Information & Technology, University of the Punjab",
+        description: <>Studied Bachelor's of Science in Computer Science.</>,
       },
     ],
   },
   technical: {
     display: true, // set to false to hide this section
     title: "Technical skills",
+
     skills: [
       {
-        title: "Figma",
-        description: <>Able to prototype in Figma with Once UI with unnatural speed.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        title: "React",
+        image: {
+          src: "/images/skills/react.svg",
+          alt: "React image",
+          width: 6,
+          height: 5.5,
+        },
       },
       {
         title: "Next.js",
-        description: <>Building next gen apps with Next.js + Once UI + Supabase.</>,
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+        image: {
+          src: "/images/skills/nextjs.svg",
+          alt: "Nextjs image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "Tailwind CSS",
+        image: {
+          src: "/images/skills/tailwindcss.png",
+          alt: "Tailwind CSS image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "TypeScript",
+        image: {
+          src: "/images/skills/ts.png",
+          alt: "TypeScript image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "JavaScript",
+        image: {
+          src: "/images/skills/js.png",
+          alt: "JavaScript image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "Redux",
+        image: {
+          src: "/images/skills/redux.svg",
+          alt: "Redux image",
+          width: 6,
+          height: 5.75,
+        },
+      },
+      {
+        title: "Vite",
+        image: {
+          src: "/images/skills/vite.png",
+          alt: "Vite image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "Tanstack Query",
+        image: {
+          src: "/images/skills/tanstack.png",
+          alt: "Tanstack image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "SCSS",
+        image: {
+          src: "/images/skills/scss.png",
+          alt: "SCSS image",
+          width: 7.1,
+          height: 5.4,
+        },
+      },
+      {
+        title: "shadcn/ui",
+        image: {
+          src: "/images/skills/shadcn.png",
+          alt: "shadcn UI image",
+          width: 5,
+          height: 5,
+        },
+      },
+      {
+        title: "Node.js",
+        image: {
+          src: "/images/skills/nodejs.png",
+          alt: "Node.js image",
+          width: 8,
+          height: 5,
+        },
+      },
+      {
+        title: "Python",
+        image: {
+          src: "/images/skills/python.png",
+          alt: "Python image",
+          width: 5,
+          height: 6,
+        },
       },
     ],
   },

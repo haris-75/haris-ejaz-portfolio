@@ -26,6 +26,7 @@ import {
   HiMoon,
   HiSun,
   HiOutlineDocument,
+  HiOutlineDocumentText,
 } from "react-icons/hi2";
 
 import {
@@ -36,7 +37,13 @@ import {
   PiImageDuotone,
 } from "react-icons/pi";
 
-import { FaDiscord, FaGithub, FaLinkedin, FaX } from "react-icons/fa6";
+import {
+  FaDiscord,
+  FaGithub,
+  FaLinkedin,
+  FaX,
+  FaSquareUpwork,
+} from "react-icons/fa6";
 
 export const iconLibrary: Record<string, IconType> = {
   chevronUp: HiChevronUp,
@@ -67,12 +74,14 @@ export const iconLibrary: Record<string, IconType> = {
   eyeOff: HiOutlineEyeSlash,
   github: FaGithub,
   linkedin: FaLinkedin,
+  upwork: FaSquareUpwork,
   x: FaX,
   clipboard: HiClipboard,
   arrowUpRightFromSquare: HiArrowTopRightOnSquare,
   moon: HiMoon,
   sun: HiSun,
   document: HiOutlineDocument,
+  resume: HiOutlineDocumentText,
 };
 
 export type IconLibrary = typeof iconLibrary;

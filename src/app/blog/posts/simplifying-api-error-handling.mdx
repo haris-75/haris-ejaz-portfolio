@@ -1,0 +1,130 @@
+---
+title: "Simplifying API Error Handling in React Apps"
+summary: "Create, edit and delete posts in the blog section of your Magic Portfolio."
+publishedAt: "2024-03-17"
+tag: "JavaScript"
+---
+
+In any modern web application, handling errors gracefully is crucial for providing a smooth user experience. When working with APIs, it's common to encounter various types of errors, such as bad requests, unauthorized access, or server-side issues. In React applications, implementing a robust error handling mechanism can significantly improve usability and user satisfaction.
+
+In this article, we'll explore a common approach to handle API errors in React apps using a reusable HTTP error handler function. We'll discuss how to structure the error handler function, handle different types of errors, and integrate it into your application.
+
+## The Problem
+
+Imagine you're building a React application that interacts with a backend API built with Django. The API returns detailed error messages in case of bad requests, with model keys and corresponding error lists. Handling these errors consistently across your application can be challenging and repetitive without a centralized error handling mechanism.
+
+## Introducing the HTTP Error Handler
+
+To simplify error handling, we'll create a common HTTP error handler function that encapsulates error handling logic. This function will take care of parsing API responses, extracting relevant error information, and performing appropriate actions based on the error type.
+
+```javascript
+// httpErrorHandler.js
+
+export const httpErrorHandler = ({
+  err, // The error object from the HTTP response
+  errorKeys, // Array of keys to look for in the error response
+  setFieldErrors, // Function to set field-specific errors
+  context, // Context for managing authentication state
+  onCustomError, // Optional custom error handling function
+}) => {
+  // Call the custom error handling function if provided
+  onCustomError?.();
+
+  // Define different error cases and their corresponding handlers
+  const errorCases = {
+    400: () => handleBadRequest(err, errorKeys, setFieldErrors), // Handle bad request errors (400)
+    401: () => handleUnauthorized(context), // Handle unauthorized errors (401)
+    403: () =>
+      showErrorToast({
+        // Handle forbidden errors (403)
+        title: "Unauthorized",
+        message: "Permission denied",
+      }),
+    404: () =>
+      showErrorToast({
+        // Handle not found errors (404)
+        title: "Not Found",
+        message: "Requested resource not found",
+      }),
+    500: () =>
+      showErrorToast({
+        // Handle internal server errors (500)
+        title: "Server Error",
+        message: "Internal Server Error",
+      }),
+    default: () =>
+      showErrorToast({
+        // Handle any other unspecified errors
+        title: "Error",
+        message: "Something went wrong",
+      }),
+  };
+
+  // Determine the error handler based on the error status or use the default handler
+  const handleCustomError = errorCases[err?.status] || errorCases.default;
+  // Execute the determined error handler
+  handleCustomError();
+};
+
+// Function to handle bad request errors (400)
+const handleBadRequest = (err, errorKeys, setFieldErrors) => {
+  // Iterate over the specified error keys
+  errorKeys?.forEach((key) => {
+    // Get the first error message for each key from the error response
+    const firstError = err?.data?.[key]?.[0];
+    if (firstError) {
+      // Set the field-specific error using the provided setFieldErrors function
+      setFieldErrors?.[key](firstError);
+    }
+  });
+};
+
+// Function to handle unauthorized errors (401)
+const handleUnauthorized = (context) => {
+  // Show an error toast to notify the user about token expiration
+  showErrorToast({
+    title: "Error",
+    message: "Token expired. Please login again.",
+  });
+  // Clear any stored authentication data
+  clearStorage();
+  // Update the authentication state in the context
+  context?.setIsAuthenticated(false);
+};
+```
+
+## Understanding the Error Handler
+
+Let's break down the components of our HTTP error handler:
+
+**httpErrorHandler**:
+This is the main function responsible for handling different types of errors. It takes an object containing error details, such as the error itself (err), error keys, and context. It also allows for custom error handling through the onCustomError callback.
+
+**handleBadRequest**: This function specifically handles bad request errors (status code 400). It extracts error messages associated with model keys and updates corresponding form fields with error messages.
+
+**handleUnauthorized**: This function handles unauthorized errors (status code 401). It displays a toast message to the user, prompts them to re-login, and clears any stored authentication data.
+
+## Integrating the Error Handler
+
+To use the HTTP error handler in your React components, import it and invoke it whenever an API call fails:
+
+```javascript
+import { httpErrorHandler } from "./httpErrorHandler";
+
+// Inside your API call or wherever you handle errors
+try {
+  // API call
+} catch (error) {
+  httpErrorHandler({
+    err: error.response,
+    errorKeys: ["field1", "field2"],
+    setFieldErrors: setError, // Function to set form field errors
+    context: authContext, // Authentication context
+    onCustomError: () => console.log("Custom error handling"), // Optional custom error handling
+  });
+}
+```
+
+## Conclusion
+
+By centralizing error handling logic into a reusable HTTP error handler function, you can streamline error management in your React applications. This approach promotes consistency, reduces code duplication, and simplifies maintenance. Whether you're dealing with bad requests, unauthorized access, or server errors, having a robust error handling mechanism is essential for delivering a reliable and user-friendly application.

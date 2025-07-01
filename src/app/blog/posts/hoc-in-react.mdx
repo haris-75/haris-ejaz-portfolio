@@ -1,0 +1,174 @@
+---
+title: "The Power of HOCs in React"
+summary: "Set up the Mailchimp newsletter block for your Magic Portfolio."
+publishedAt: "2022-11-08"
+tag: "React"
+---
+
+The concept of Higher-order components (HOCs) in React was derived from the higher-order functions in JavaScript. HOCs offer a sophisticated method for repeating logic in React components and are a pattern derived from React's compositional nature.
+
+HOCs basically incorporate the _DRY(Don't Repeat Yourself)_ prinicple of software development aimed at reducing repetition of information in a project.
+
+In this article, we'll dive into the intricacies of Higher Order Components (HOCs) in React with practical examples.
+
+## JS Higher-Order Functions
+
+Before diving into the technicalities of HOCs in React, Let's first get familiar with Higher-Order Functions in JavaScript.
+
+_JavaScript's higher-order functions allow us to manipulate functions, not just values, by taking in one or more `functions` as arguments and returning a new function. This enables us to write more concise code and abstract over actions._
+
+![Higher-Order Functions Description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q09kitclbe65bqjjxdf6.png)
+
+Higher-order functions help simplify complex logic by breaking it down into smaller parts. By combining these smaller functions, we can create complex behavior. This makes our code easier to understand and reduces the risk of bugs.
+
+Several higher-order functions are already available in JavaScript, such as:
+
+- `map()` _=>_ transforms an array by applying a function to all of its elements, and then build a new array from the returned values.
+- `forEach()` _=>_ goes through each item in an array and does something with it by using another function but doesn't change the original array and returns nothing.
+- `filter()` _=>_ looks at each item in an array and decides if it meets a specfic condition or not by using a `filter` method then returns a new array with elements satisfaying that condition.
+- `reduce()` _=>_ takes an array and combines all the items into a single value by applying a provided function to each element of the array.
+
+There are many other higher-order functions in JavaScript beyond what we have already discussed. Now Let's look into some custom Higher-Order Functions that can be created easily in JavaScript.
+
+## Custom Higher-Order Functions
+
+Let's use the following example to grasp the concept of higher-order functions. We have created a higher-order function called `prefixerUtilizer`, which accepts a string `word` as an argument and returns a new function that combines `prefix` with `word`.
+
+```javascript
+function prefixerUtilizer(prefix) {
+  return function (word) {
+    return `${prefix}${word}`;
+  };
+}
+
+const withMoneySign = prefixerUtilizer("$");
+const withCompanyName = prefixerUtilizer("Microsoft");
+const tenDollars = withMoneySign("9.99");
+const companyOneLiner = withCompanyName(
+  " is one of the biggest IT corporation in the world."
+);
+
+console.log(tenDollars);
+// $9.99
+
+console.log(companyOneLiner);
+// Microsoft is one of the biggest IT corporation in the world.
+```
+
+But in the above example we are creating a higher order function that returns a function. Now Let's see an example where we create a higher order function that accepts a function as an argument.
+
+```javascript
+function higherOrderFunction(func) {
+  return function (arg) {
+    return func(arg);
+  };
+}
+
+function add5(num) {
+  return num + 5;
+}
+
+var add5WithHigherOrder = higherOrderFunction(add5);
+console.log(add5WithHigherOrder(3));
+```
+
+In the above example, `higherOrderFunction` is a higher-order function that takes a function `func` as an argument and returns a new function that takes an argument `arg` and returns the result of calling `func` with `arg`. We then pass the `add5` function as an argument to `higherOrderFunction`, which returns a new function `add5WithHigherOrder` that adds 5 to its argument.
+
+## Higher Order Components
+
+As we have discussed higher-order functions in depth, let's now move on to our main focus, which is higher-order functions.
+
+A higher-order component (HOC) is an advanced concept which focuses on reusing logic in React components. It involves taking one or more components as inputs and returning a new, enhanced component. HOCs are similar to higher-order functions, which accept functions as arguments and return a new function as we seen above.
+
+HOCs are widely used to create components with shared behavior that cannot be achieved using the normal state-to-props approach.
+
+Some properties of HOCs :
+
+- We do not alter or change components, instead, we create new ones.
+
+- HOCs are utilized to bring together components for the purpose of code reuse.
+
+- HOCs are considered pure functions as they do not have any unintended consequences. They only produce a new component.
+
+![hocs-image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ajv7m6jjnawi7c142j2p.png)
+
+These are some real world examples of HOCs:
+
+<table>
+  <thead>
+    <tr>
+      <th>Package Name</th>
+      <th>HOC Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>react-redux</td>
+      <td>
+        <code>connect(mapStateToProps, mapDispatchToProps)(UserPage)</code>
+      </td>
+    </tr>
+    <tr>
+      <td>react-router</td>
+      <td>
+        <code>withRouter(UserPage)</code>
+      </td>
+    </tr>
+    <tr>
+      <td>material-ui</td>
+      <td>
+        <code>withStyles(styles)(UserPage)</code>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Structure of HOCs
+
+- It is a component.
+- It takes another component as an argument.
+- It returns an entirely new component from the one passed to it.
+- The component it returns can render the original component that was passed to it.
+
+_Enough explanation let's see a HOCs in action_.
+
+```javascript
+import React from "react";
+
+const withLoadingIndicator = (WrappedComponent) => {
+  return class extends React.Component {
+    render() {
+      const { isLoading, ...otherProps } = this.props;
+      return isLoading ? (
+        <div>Loading...</div>
+      ) : (
+        <WrappedComponent {...otherProps} />
+      );
+    }
+  };
+};
+
+export default withLoadingIndicator;
+```
+
+In this example, the `withLoadingIndicator` HOC takes a `WrappedComponent` as its argument and returns a new component that wraps it with a loading indicator. If the `isLoading` prop is `true`, it displays a `Loading...` message, otherwise it renders the original component.
+
+To use this HOC, you simply import it and wrap your component with it:
+
+```javascript
+import React from 'react';
+import withLoadingIndicator from './withLoadingIndicator';
+
+class MyComponent extends React.Component {
+  ...
+  // MyComponent Implementation
+}
+
+export default withLoadingIndicator(MyComponent);
+```
+
+Now, the `MyComponent` component will display a loading indicator when its `isLoading` prop is `true`.
+
+_In conclusion, Higher Order Components provide a powerful solution for component logic reuse in React. By extending component functionality, HOCs simplify the development process and improve code maintainability. Whether new or experienced, consider incorporating HOCs in your React projects for better results._
+
+If you still have any queries or suggestions, kindly leave a comment. Your input would be greatly appreciated. Thanks!

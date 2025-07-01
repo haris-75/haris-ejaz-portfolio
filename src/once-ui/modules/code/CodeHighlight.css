@@ -90,3 +90,10 @@
 .line-numbers .line-highlight:after {
   content: none;
 }
+
+.blog-image-wrapper img {
+  position: relative !important;
+}
+.blog-image-wrapper {
+  height: fit-content !important;
+}
